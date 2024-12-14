@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  superset:
+    build:
+      context: ./superset
+      dockerfile: Dockerfile
+    container_name: superset
+    volumes:
+      - ./superset_home:/app/superset_home
+      - ./superset/superset_config.py:/app/superset_config.py
+
+    environment:
+      - SUPERSET_DATABASE_URI=postgresql+psycopg2://${DBUSER}:${PASSWORD}@${HOST}:${PORT}/${NAME}
+      - SECRET_KEY=${SECRET_KEY}
+    ports:
+      - '8080:8088'
